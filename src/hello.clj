@@ -3,7 +3,11 @@
             [io.pedestal.http.route :as route]))
 
 (defn respond-hello [request]
-  {:status 200 :body "Hello, world!"})
+  (let [nm (get-in request [:query-params :name]) 
+    resp (if (empty? nm)
+           "Hello world!\n"
+           (str "Hello, " nm "\n"))]
+    {:status 200 :body resp}))
 
 (def routes
   (route/expand-routes
